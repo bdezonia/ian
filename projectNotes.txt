@@ -1,0 +1,368 @@
+
+Right now I'm (most recent at top, older at bottom)
+
+  A fair number of test maps (such as all the old landis-generated maps and
+    1984.gis) has 30 meter edge unit but 1 sq. meter area unit. The header of
+    the gis file must not have area units correctly set. This should
+    give inaccurate results. Is this a common problem? Do we need to write
+    code to warn when dist unit and area unit are in conflict? We'd need to
+    change how units are defined so that different families can refer to each
+    other as one dimension more or less. So we could convert 30.0 meters to
+    900 sq. meters and check for compatible unit definitions.
+  Improve core area analysis:
+    User specifies edge distance to consider in any unit desired
+    Iterate over pixels
+      For each pixel in image
+        Find pixels that are within specified user distance of this pixel
+        For each of those pixels
+          See if color does not match
+        If all colors match
+          increment core are by calculated amount.
+  Create PRC analysis
+    Take map x.ext and create map x.prc.ext in same directory
+    Note that this analysis would not return an OutputSummary
+      Need to modify code to handle this.
+    To avoid possible slowness with images that have a lot of background cells:
+      Store the input map as a hash (only non-background entries)
+        each hash entry should be row,col => color
+          maybe row,col encoded as row*const+col
+    Algorithm
+      Store input map as hash
+      Convert hash to array: [[key,value],[key,value],...]
+      length = array.length
+      (length-1).times do | pNum |
+        # choose a random pixel between pNum and last
+        randPix = pNum+rand(length-pNum)
+        # swap pixel values
+        if pNum != randPix
+          array[pNum][1],array[randPix][1] = array[randPix][1],array[pNum][1]
+        end
+      end
+      Init output map to all background
+      Iterate over array and write the pixel values for the row&col index to image
+      prcImage.writeImage
+      return nil
+  Make a call to engine.warning() if the DesiredDistUnit squared does not
+    equal the DesiredAreaUnit when both are specified with factors != 0.0 or 1.0
+  Unit conversion happens if factor specified is either 0.0 or 1.0. Using 1.0
+    for this value makes it impossible to specify that a map with internal
+    units as feet for instance could ever have the user specify 1.0 meters
+    per cell. Make system only use 0.0 as the UnitConvert value and change
+    how WinUI.rbw defaults the value.
+  Extend CA to use 4/8 neighbor rule based on Options
+  Extend CA to take argument specifying the distance from edge that qualifies
+    as core area
+  Need to release LCU(s) on website as an extension. I am testing speeds and mem
+    usage of various implementations. Testing for accuracy looks great. Lcu.rb
+    is the preferred implementation (lcu2.rb is much slower and takes more ram
+    to be able to work but it may be able to be improved). Right now they are
+    located under IAN on the server in the extensions directory. Not included
+    in the distribution by default because it is such a slow analysis.
+  In command line version tilde turns out to be an awkward arg separator. Comma
+    would make more sense but I think I avoided this because comma has a meaning
+    in the command shell. If arguments are passed together such as igis(path,file)
+    things work but if there are spaces in name I think there are problems as
+    comma gets parsed by shell. As it stands now filenames with tildes in them
+    cannot be specified. (I looked into this. Comma works fine in .rb files but
+    its in the .bat files that call .rb files where comma is eliminated. See
+    testsetc for cl.bat and clargs.rb. Try entering igis(path,file) and see the
+    results : arg1 = igis(path and arg2 = file) and a simple stitch loses comma
+    but if forced a comma then -ua(square meters) would get an unecessary comma.
+    One possible solution: rename clui.rb into IANC.rb and WinUI.rbw into IAN.rbw.
+    Then they can be called directly as IANC and IAN and we can use commas. This
+    would affect install program too.
+  Make clui.rb's help much more clear. Also maybe enhance the help methods in
+    clui.rb to scroll through help, list help about installed options, etc.
+  Make imagetypes return extensions of files as an attr. Pass to WinUI.rbw code.
+    This allows us to define multiple filetypes for *.ASC for instance.
+    Like IAN's ASC and ERDAS' ASC formats.
+  Clean up potential user errors with scale of units. Only allow 1 of 2
+    scales to be determined by user while the other is calculated. This
+    won't allow miscalcs by using messing up stats.
+  Move Polygon calculator to a class of its own. Return it from Image* so it
+    can be used by metrics.
+  Should CA be limited to the eight neighbor rule? It is now.
+  Users have criticized help
+    What constitutes patch area
+    What constitutes core area
+    Why does electivity report negatives when things border alot
+      In this case its because its much more likely to border itself
+    What is electivity significance measuring
+    Why is electivity not subject to the eight neighbor rule
+    What are the ranges of metrics
+  One output file ideas
+    Step 1 - choose files, Step 2 - choose analyses, Step 3 - choose one output (and specify) or many,
+      Step 4 (based on step 3) - show reports you can choose. DBF only when many input files and many
+      output chosen or just one input file. Step 5 - settings, step 6 - run.
+        Store reports in two subdirs where one is for many input files and one is for single input file.
+  ~'s in filenames and paths cause problems for IAN. If we are running from
+    within WinUI.rbw we may be able to workaround some of them by getting the
+    long filename.
+  GIS 8bit junk.gis has a maptyp of 99 (NONE I think) which is not accounted for
+    in GIS and LAN image converters. Also see if linear unit set to feet and
+    areal unit set to acre via GIS then will acres get autoconverted from feet?
+  Get rid of many calls to load file. Instead load def once and use. See temp.rb
+  User request: Add histogram cutoffs for polygon summaries and other metrics.
+    I.e. make it like APACK
+  Update C interface to reflect Ruby 1.8 changes - see PickAxe 2 book for how to
+    do this
+  Make polymap its own class in C with public methods. Access from Image*.c.
+  Make support in C for CCE/CCI and write analyses in Ruby
+  Make support in C for metrics Todd requested and write analyses in Ruby
+  Predefine loop vars all over the place for speed
+  Redesign SparseMatrix for speedup - find algos and impl in C?
+    rowIndices = [] colIndices = [] values = []
+    m[5,2]=6 : rowIndices = [5] colIndices = [2] values = [6]
+    can sort order on insert for faster lookup later
+    can use a binary search on sorted arrays for faster lookup
+  Redesign FDB for speedup
+    It spends almost 50% of it time in the inner loop accessing the map. Find a way to
+    lower the number of times we access map without creating lots of objects
+  Once FXRuby is updated to fix FxDialog bugs (1.2.3 and it makes it into a standard
+    distrib of ruby) use .filenames approach which allows us to remember last path and
+    pattern.
+  Profile app once 1.8.2 profiler bug is fixed
+  Big change: One output file
+    class BatchJobSummary - contains a hash of filename=>[OutputSummaries]
+    Reporters get a BatchJobSummary and they summarize it
+    UI's need to specify output filename
+  Big change:
+    Declare classes Option, Report, Analysis, Image. Then just load files and add methods
+    to instances of these classes. The loaded files will need to be read into some object
+    so need to think how to do that. This way don't need MethodRemover and we don't have to
+    worry about data values going out of scope. No outputSummaries maybe but just attached
+    to invoking class. Could speed things up by minimizing loads. Cleaner too. Possible in
+    1.8: (similar example)
+      c = Class.new do
+        def test_me
+          "called <klass>::test_me" 
+        end
+      end
+      c1 = c.new
+      c1.test_me
+         Could make all extensions do someGlobal=Class.new and the calling load code just
+         takes value of global and remembers it.
+  Speed:
+    42% of app time in analyses that use SparseMatrix methods (AM, EL, SP, EDE, IDM)
+    42% of app time in FDB (also uses SparseMatrix)
+  Get rid of SparseMatrix : replace with hash[[row,col]] - simpler and probably faster
+    No - its much slower when tested
+  Use NArray's matrix to define images. May be faster and would integrate a lot of
+    computational horsepower in the package
+  See testsetc\testbit2.rb
+    Implement change in how we decode pixels : remove bit operations if possible
+  Make rakefile for CCODE and use Rake
+  LAN - does not do multiple bands
+  TIFF
+    - support GeoTIFF tags (units available)
+    - LZW patents have expired. Implement LZW decompression in TIF.rb
+    - Implement Huffman decompression in TIF.rb
+  GIF support
+  Publish the spec for ARC Bil/Bip/Bsq
+    http://www.esri-portugal.pt/produtos/documents/eximgav.pdf
+  Do something to make supported units more transparent
+    - a help facility
+    - document on web page
+  Replace all engine.errors with raises (if possible)
+  Allow access to patchMap in Image*
+  Extend metrics to use area-weighted mean
+  Make sure Engine has rescue uncommented
+  Make sure no prints or statements contain debug junk
+  More metrics from fragstats
+    Add Euclidean Nearest Neighbor, Functional Nearest Neighbor, 
+    Test LPI,SHP,CA(?) vs. Fragstats
+    Modify core area stats - takes buffer dist in user units and have it
+      default (for win ver) to 1 cell
+  Classes of interest and classify the others as All Others or simply ignore
+    or multiple background colors
+  Read multiple files and collect output in 1 report : much desired
+    Need to make summaries of transient objects. Things like the Image need to get GCed
+      after analysis to make way for next image but valuable stats will be lost to
+      massive reporter. So need to make ImageSummary objects for use by reporter.
+    What about different colors in different maps? How does this affect output format
+      between analyses? Need to collect as we go and add columns as needed - use Hashes
+    Need user to name output file or take name from user-defined analysis set
+    This request changes the way data will be processed. It will need to be collected
+      for all files first and then reported on en masse. Right now an image is analyzed
+      and then all desired reports are fired on it.
+  TIF - add:
+    Huffman compression and lzw and jpeg
+    planar config == 2
+    32 bit pixels,
+    SampleFormat check
+    other color models
+  Create a filter for loading map so you can do only classes 1-4 w/others getting
+    classified as one class : All Others
+  Make internal code store covers such that no classes have zero cells present
+  Put default.htm into Ian.zip
+  IAN and IANC TXT (and other) output reports in diff order when all analyses selected
+  Manual - Extending IAN
+    - document Calculator
+    - document units.dat
+  Website
+    - a place to get latest source bundle
+    - a place to get Ruby distribution?
+    - documentation of analyses, reports, imagetypes, options
+  Testing install procedure
+    MSVCR70.DLL : how to statically link?
+  Is MethodRemover potentially slow?
+  To keep up with changes in future
+    - 64 bit integers
+    - new versions of Ruby
+    - new version of FxRuby included in standard distribution
+    Maybe I'll allow download of different versions of Ian for different Ruby distros
+      This would be best but more maintenance
+  Compare IAN to Apack/Fragstats results
+    Tested vs.:
+      apack:
+        turnera.gis: no back
+          same:  fd2, pac, ai, do, dor/rdo, pa, swd, swe, ed, tot perim
+          diff:  asm, idm, fdb, co, cor/rco, ede
+      frag
+        testcq.gis: no back
+          diff: rel contagion (a little)
+  Let list serves and newsgroups know
+  Add to Ruby Production Archive or Ruby Application Archive
+  Test in clui that specifying different units between jobs works: broken now I think
+  Add more metrics
+    BP - border perimeter
+    COH - patch cohesion
+      take params : whether adjacencies are ordered or not (did I mean num neighs here?)
+    CC - replace CCE and CCI - takes a param to determine if E or I
+    lcu(slow,weird output,input required),cce(slow,requires Image* extension),
+      cci(slow,requires Image* extension),
+      prc(Needs to make an Image - reload ImageConverter-problematic?),elo(needs an Image),
+      aan(needs Image* extension - patchColors)
+    fragstats
+  Ian.bmp:
+    - CLUI 18 secs WinUI 4 secs. why? WinUI 20 secs when background set to other than 0,1
+  Win UI
+    preview image
+    new file selector : FOX 1.2
+    check ok button status for file selector
+    remember last path chosen for file selector
+    remember all user settings
+    save analysis sets (and probably settings) as .ian files (working sets) and restore them
+    choose a series of files and one output file as report (like Landis processing)
+    View results needed
+  Check area units in GIS: maybe ignore if they don't match dist unit?
+  Change Analysis.new to take (*args) and then can invoke with 0 or 4 args
+  Image* changes
+    Image.file: classesPresent and area and perimeter should each take a param that
+      represent background. if background = -1 then count otherwise count taking
+      into account background
+    Areas should be hashes
+    ClassesPresent should just call array.nitems if we keep arrays
+    Should standardize methods between Image* so they all call pixelValue(image,p)
+      like Image24. Take small speed hit but more maintainable
+    Make getCell and setCell do rb_raise on bad args
+  Class perims may not sum to perim w/o back due to how calced. Check a map or two to see.
+  Read Landis data: another program Landis IAN - IANL
+    or just make IAN run through a series of maps and one report
+  Use Ruby tool that makes an EXE of your .RB files and the interpreter
+  Make units work
+    classify all metrics internally with units based on cells and edges
+    let unit convert do graph traversal when units are not cells and edges
+    otherwise make edge and cell transform to desired unit's base unit and then graph traversal
+    classify percent as a ratio, not a scalar
+      have scalars take on base units like sentence one up
+         will this then still work for things like SWE, etc.
+    problem: edge*edge = cells (not sq. edges) -> how to capture?
+  Units won't work for things like Perim_Area ratios. Need nums to be unitized
+    for all arithmetic so conversions done automatically.
+  Fix color vs. class inconsistencies. Decide on a paradigm and use it.
+  BMP buggy - 1) 16-bit: endian issues? 2) 16-bit and 32-bit images: reading & setting palette wrong
+  Allow a map to be a report type
+  Allow mass conversion: Ike igis(*.gis) fbmp
+  Interface to R
+  Write a new ruby program : like this one but internal data is multiplane and the datatype
+    can be char, float, int, etc.  Make like a GIS?
+  If two jobs on one command line and try to set different units for each job I think it
+    will apply the last unit chosen to both.
+  Does remembering options from job to job work?
+  Add more cached stats to Image C files
+  IGIS and IBMP: write output
+    use internal image's bitsPerPix (or specified as arg to write method)
+    how will we come up with colors for pallette for BMP?
+  Make program into an image converter also
+    A report that generates a filetype? ian igis(c:\~f1) rtif(c:\~f1)
+    Or new command line syntax? ian igis(c:\~f1) itif(c:\~f1)
+    Report way is not object-oriented. Currently ImageConverter houses
+    info on how to write files. Moving to a report is kind of clumsy.
+    Would want to have some way to load GIS ImageConverter, read, load
+    TIF ImageConverter, write.
+    Okay: command line becomes ian igis(c:\~1) ibmp(c:\~2) ctif
+      Multiple images are loaded one at a time and then converted to
+      specified filetype(s). If no name is given for conversion it
+      saves file as input name with new extension. The c???() routines
+      don't live on disk. Its a command line syntax that will invoke
+      ImageCreators' write methods.
+    To keep command line simple make it a second program: IKE
+      Image Konversion Engine
+        ike igis(a) igis(b) igis(c) cbmp itif(d) itif(e) cpng
+      clui -> ianclui.rb
+      winui -> ianwinui.rb
+  Get old command line params from apack
+  Simplify command line
+    eliminate paths: put clui.rb on path, eliminate hardcoded paths in code,
+    "Requires" assume you are loaded in same directory. How to handle?
+    Must find starting script's path and include in "requires" (and also for
+    referring to "analyses\", "reports\", etc.
+      Okay, set path using -I in apack.bat. Access $: array from program to
+      see what apack path is.
+      If possible have APACK.bat figure out its install dir and pass with
+      -I rather than having an install program hardcode it.
+  options
+     the old ones supplied by old apack
+     the new ones from new syntax
+    idea: options simply store name and associated input data
+      Then any option can be specified by user. Metrics lookup current value
+      of the option
+	To do in units.rb:
+		make factor parsing in units.dat open ended with +-*/()
+		change so base unit is not text but actual unit? good or bad idea?
+			will have to wait until everything read in to avoid failing to find
+			a unit that is yet to be defined during base unit lookup, So traverse
+			afterwards and change all baseUnit strings to baseUnits
+  Creating multidimarray so metrics can return one type of data
+    Clone (or dup) seems wrong but may work. Not duping in structures but
+    only the values.
+  Make sure we create directory paths of output files? I think not
+    But flag them as nonexistent
+  Help in CLParser
+    -h -aall AR : results in AR out of alphabetical order
+  Playing with file formats - BIP.rb
+  Reports
+    existing APACK text data is organized differently: by class and then
+      by metric. My temp report does by metric by class.
+  Added SP.rb which caused classCount and classesPresent for image. May not
+    have incorporated correctly into TXT.rb. Might have interchanged methods
+0) make image8.eaches collect their yield values and return them somehow
+     Ideally want block to return its num, array, or multidimarray and perhaps
+     what it is associated with (did I mean units here?)
+2) document: assoc .rb=rbFile      ftype rbFile=c:\ruby\bin\ruby.exe %1 %*
+6) more image types
+8) make a report that has a windowed ui - reports results in windows!
+9) on same idea (more fuzzy): let input ui be specified on command line
+      so apack win ... or apack cl ... (or maybe just apack ...)
+12) what if no args specified for i??? and r???.
+13) tools to build C++ interface : www.swig.org
+14) does Image8 totalArea and getCellSize orphan memory? Also how does the
+    C code let ruby know its using an external object reference (if it is)
+15) Options and analyses should report num args so win ver can make ui
+16) Need an install program that makes APACK.bat with install dir noted
+    Also could ask if linux or windows and make correct executable text for
+    the given platform. Ship with *.so and *.dll.
+Project was first versioned on August 2003 but still unbuilt
+  Groundwork started April 2003 based on thoughts from 1998
+Conventions of internal images
+  Image has origin in lowerleft corner: like bmp (and gis?)
+  Bit layouts
+    1  stored upto 8 per byte, col 1 in msb, col 8 in lsb
+         as fixnum = 0 or 1
+    4  stored upto 2 per byte, col 1 in 4 msb, col 2 in 4 lsb
+         as fixnum = 00 00 00 0p
+    8  stored one per byte, as fixnum = 00 00 00 pp
+    16 stored one per unsigned short, as fixnum = 00 00 pp pp
+    24 stored in 3 arrays (r,g,b)  pixel 5 = red[5] green[5] blue[5]
+         encoded into a Fixnum : (msb) 00 rr gg bb (lsb)

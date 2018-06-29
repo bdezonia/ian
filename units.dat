@@ -1,0 +1,69 @@
+# This file defines all unit types used by the program.
+# The unit values are specified as comma delimited fields,
+# The fields are in the following order:
+#   1) NAME
+#   2) PLURAL NAME
+#   3) ABBREVIATION
+#   4) CONVERSION FACTOR: the number of base units per this unit
+#        The value can be an equation using up to 2 multiplications
+#        and/or divisions
+#   5) BASE UNIT
+#   6) UNIT TYPE: the family of measurements this unit belongs to
+#        There is no restriction on the name of the unit type.
+
+# scalar units
+
+none,              ,      ,     0.0,    none,    scalar
+percent,    percent,     %,     1.0,    percent, scalar
+
+# distance units
+
+edge,          edges,          edges,       1.0,    edge,          distance
+meter,         meters,         m,           1.0,    meter,         distance
+kilometer,     kilometers,     km,          1000.0, meter,         distance
+centimeter,    centimeters,    cm,          0.01,   meter,         distance
+foot,          feet,           ft,          0.3048, meter,         distance
+yard,          yards,          yd,          3.0,    foot,          distance
+mile,          miles,          mi,          5280.0, foot,          distance
+inch,          inches,         in,          1/12.0, foot,          distance
+rod,           rods,           rd,          16.5,   foot,          distance
+perch,         perch,          perch,       1.0,    rod,           distance
+pole,          poles,          poles,       1.0,    rod,           distance
+chain,         chains,         ch,          4.0,    rod,           distance
+furlong,       furlongs,       fg,          10.0,   chain,         distance
+hand,          hands,          hands,       4.0,    inch,          distance
+link,          links,          links,       0.01,   chain,         distance
+league,        leagues,        leagues,     3.0,    mile,          distance
+fathom,        fathoms,        fathoms,     6.0,    foot,          distance
+cable,         cables,         cables,      100.0,  fathom,        distance
+nautical mile, nautical miles, n.m.,        10.0,   cable,         distance
+sea league,    sea leagues,    sea leagues, 3.0,    nautical mile, distance
+
+# area units
+
+pixel,             pixels,             pixels,  1.0,           pixel,        area
+cell,              cells,              cells,   1.0,           pixel,        area
+square meter,      square meters,      sq. m,   1.0,           square meter, area
+square kilometer,  square kilometers,  sq. km,  1000.0*1000.0, square meter, area
+square centimeter, square centimeters, sq. cm,  0.01*0.01,     square meter, area
+hectare,           hectares,           ha,      10000.0,       square meter, area
+are,               ares,               a,       100.0,         square meter, area
+square foot,       square feet,        sq. ft,  0.3048*0.3048, square meter, area
+square inch,       square inches,      sq. in,  1/144,         square foot,  area
+square yard,       square yards,       sq. yd,  3.0*3.0,       square foot,  area
+square mile,       square miles,       sq. mi,  5280.0*5280.0, square foot,  area
+square,            squares,            squares,   100.0,       square foot, area
+acre,              acres,              ac,      43560.0,       square foot,  area
+square rod,        square rods,        sq. rd,    272.25,      square foot, area
+square pole,       square poles,       sq. poles, 1.0,         square rod,   area
+square perch,      square perch,       sq. perch, 1.0,         square rod,   area
+rood,              roods,              roods,     40.0,        square pole,  area
+section,           sections,           sections,  1.0,         square mile,  area
+township,          townships,          townships, 36.0,        section,      area
+quarter section,   quarter sections,   quarter sections, 1/4,  section,      area
+
+# volume units
+
+voxel, voxels, voxels, 1.0, voxel, volume
+
+# other kinds of units (force, time, etc.) can follow

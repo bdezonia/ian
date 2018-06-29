@@ -1,0 +1,188 @@
+IAN text report on : U:\ian\RubyVersion\TinyTest.asc
+
+Test 3x3 map
+  Wed May 24 15:53:51 Central Standard Time 2006
+
+Image measures
+
+  Rows                                               : 3           
+  Cols                                               : 3           
+  Total cells                                        : 9           
+  Occupied cells                                     : 9           
+  Bits Per Pixel                                     : 24          
+  Classes present                                    : 3           
+  Background color                                   : None
+  Neighbors per cell                                 : 8           
+  Aggregation Index                                  : 0.889       
+  Angular Second Moment                              : 0.210       
+  Avg. Polygon Perimeter-Area ratio (corrected)      : 1.315       
+  Avg. Polygon Perimeter-Area ratio                  : 3.022        edges / cells
+  Contagion                                          : 0.539       
+  Dominance                                          : 0.162       
+  Edge Density                                       : 2.000        edges / cells
+  Edge Distribution Evenness                         : 0.755       
+  Fractal Dimension (Box)                            : 1.170       
+  Fractal Dimension (Perimeter-Area)                 : 1.349       
+  Inverse Difference Moment                          : 0.702       
+  Largest Polygon Index                              : 55.556       %
+  Perimeter                                          : 18           edges
+  Total Polygons                                     : 3           
+  Mean Polygon Area                                  : 3.000        cells
+  Std. Dev. Polygon Area                             : 2.000        cells
+  Median Polygon Area                                : 3.000        cells
+  First Quartile Polygon Area                        : 1            cells
+  Third Quartile Polygon Area                        : 3            cells
+  Minimum Polygon Area                               : 1            cells
+  Maximum Polygon Area                               : 5            cells
+  Total Polygons                                     : 3           
+  Mean Polygon Perimeter                             : 8.000        edges
+  Std. Dev. Polygon Perimeter                        : 4.000        edges
+  Median Polygon Perimeter                           : 8.000        edges
+  First Quartile Polygon Perimeter                   : 4            edges
+  Third Quartile Polygon Perimeter                   : 8            edges
+  Minimum Polygon Perimeter                          : 4            edges
+  Maximum Polygon Perimeter                          : 12           edges
+  Relative Contagion                                 : 24.526       %
+  Relative Dominance                                 : 0.147       
+  Shannon Weaver Diversity                           : 0.937       
+  Shannon Weaver Evenness                            : 0.853       
+  Mean Shape Index                                   : 1.067       
+  Standard Deviation Shape Index                     : 0.115       
+  Median Shape Index                                 : 1.000       
+  First Quartile Shape Index                         : 1.000       
+  Third Quartile Shape Index                         : 1.000       
+  Minimum Shape Index                                : 1.000       
+  Maximum Shape Index                                : 1.200       
+
+Class measures
+
+  Class 1
+    Aggregation Index                                : 1.000       
+    Area                                             : 1.000        cells
+    Avg. Polygon Perimeter-Area ratio (corrected)    : 1.128       
+    Avg. Polygon Perimeter-Area ratio                : 4.000        edges / cells
+    Core Area                                        : 0.000        cells
+    Edge Density                                     : 4.000        edges / cells
+    Fractal Dimension (Box)                          : 0.000       
+    Fractal Dimension (Perimeter-Area)               : 0.000       
+    Largest Polygon Index                            : 11.111       %
+    Perimeter                                        : 4.000        edges
+    Total Polygons                                   : 1           
+    Mean Polygon Area                                : 1.000        cells
+    Std. Dev. Polygon Area                           : 0.000        cells
+    Median Polygon Area                              : 1.000        cells
+    First Quartile Polygon Area                      : 1.000        cells
+    Third Quartile Polygon Area                      : 1.000        cells
+    Minimum Polygon Area                             : 1.000        cells
+    Maximum Polygon Area                             : 1.000        cells
+    Total Polygons                                   : 1           
+    Mean Polygon Perimeter                           : 4.000        edges
+    Std. Dev. Polygon Perimeter                      : 0.000        edges
+    Median Polygon Perimeter                         : 4.000        edges
+    First Quartile Polygon Perimeter                 : 4.000        edges
+    Third Quartile Polygon Perimeter                 : 4.000        edges
+    Minimum Polygon Perimeter                        : 4.000        edges
+    Maximum Polygon Perimeter                        : 4.000        edges
+    Relative Area                                    : 11.11        %
+    Mean Shape Index                                 : 1.000       
+    Standard Deviation Shape Index                   : 0.000       
+    Median Shape Index                               : 1.000       
+    First Quartile Shape Index                       : 1.000       
+    Third Quartile Shape Index                       : 1.000       
+    Minimum Shape Index                              : 1.000       
+    Maximum Shape Index                              : 1.000       
+
+  Class 2
+    Aggregation Index                                : 1.000       
+    Area                                             : 3.000        cells
+    Avg. Polygon Perimeter-Area ratio (corrected)    : 1.303       
+    Avg. Polygon Perimeter-Area ratio                : 2.667        edges / cells
+    Core Area                                        : 0.000        cells
+    Edge Density                                     : 2.667        edges / cells
+    Fractal Dimension (Box)                          : 0.585       
+    Fractal Dimension (Perimeter-Area)               : 0.000       
+    Largest Polygon Index                            : 33.333       %
+    Perimeter                                        : 8.000        edges
+    Total Polygons                                   : 1           
+    Mean Polygon Area                                : 3.000        cells
+    Std. Dev. Polygon Area                           : 0.000        cells
+    Median Polygon Area                              : 3.000        cells
+    First Quartile Polygon Area                      : 3.000        cells
+    Third Quartile Polygon Area                      : 3.000        cells
+    Minimum Polygon Area                             : 3.000        cells
+    Maximum Polygon Area                             : 3.000        cells
+    Total Polygons                                   : 1           
+    Mean Polygon Perimeter                           : 8.000        edges
+    Std. Dev. Polygon Perimeter                      : 0.000        edges
+    Median Polygon Perimeter                         : 8.000        edges
+    First Quartile Polygon Perimeter                 : 8.000        edges
+    Third Quartile Polygon Perimeter                 : 8.000        edges
+    Minimum Polygon Perimeter                        : 8.000        edges
+    Maximum Polygon Perimeter                        : 8.000        edges
+    Relative Area                                    : 33.33        %
+    Mean Shape Index                                 : 1.000       
+    Standard Deviation Shape Index                   : 0.000       
+    Median Shape Index                               : 1.000       
+    First Quartile Shape Index                       : 1.000       
+    Third Quartile Shape Index                       : 1.000       
+    Minimum Shape Index                              : 1.000       
+    Maximum Shape Index                              : 1.000       
+
+  Class 3
+    Aggregation Index                                : 0.800       
+    Area                                             : 5.000        cells
+    Avg. Polygon Perimeter-Area ratio (corrected)    : 1.514       
+    Avg. Polygon Perimeter-Area ratio                : 2.400        edges / cells
+    Core Area                                        : 0.000        cells
+    Edge Density                                     : 2.400        edges / cells
+    Fractal Dimension (Box)                          : 0.737       
+    Fractal Dimension (Perimeter-Area)               : 0.000       
+    Largest Polygon Index                            : 55.556       %
+    Perimeter                                        : 12.000       edges
+    Total Polygons                                   : 1           
+    Mean Polygon Area                                : 5.000        cells
+    Std. Dev. Polygon Area                           : 0.000        cells
+    Median Polygon Area                              : 5.000        cells
+    First Quartile Polygon Area                      : 5.000        cells
+    Third Quartile Polygon Area                      : 5.000        cells
+    Minimum Polygon Area                             : 5.000        cells
+    Maximum Polygon Area                             : 5.000        cells
+    Total Polygons                                   : 1           
+    Mean Polygon Perimeter                           : 12.000       edges
+    Std. Dev. Polygon Perimeter                      : 0.000        edges
+    Median Polygon Perimeter                         : 12.000       edges
+    First Quartile Polygon Perimeter                 : 12.000       edges
+    Third Quartile Polygon Perimeter                 : 12.000       edges
+    Minimum Polygon Perimeter                        : 12.000       edges
+    Maximum Polygon Perimeter                        : 12.000       edges
+    Relative Area                                    : 55.56        %
+    Mean Shape Index                                 : 1.200       
+    Standard Deviation Shape Index                   : 0.000       
+    Median Shape Index                               : 1.200       
+    First Quartile Shape Index                       : 1.200       
+    Third Quartile Shape Index                       : 1.200       
+    Minimum Shape Index                              : 1.200       
+    Maximum Shape Index                              : 1.200       
+
+Interclass measures
+
+  Adjacency Matrix
+            Class 1  Class 2  Class 3
+    Class 1  0.000  0.111  0.000
+    Class 2  0.056  0.111  0.167
+    Class 3  0.000  0.263  0.292
+  Electivity
+            Class 1  Class 2  Class 3
+    Class 1  +Infinity  +Infinity  -Infinity
+    Class 2  +Infinity  +Infinity  -Infinity
+    Class 3  -Infinity  -Infinity  +Infinity
+  Significance
+            Class 1  Class 2  Class 3
+    Class 1  +Infinity  +Infinity  +Infinity
+    Class 2  +Infinity  +Infinity  +Infinity
+    Class 3  +Infinity  +Infinity  +Infinity
+  Shared perimeter between classes (edges)
+            Class 1  Class 2  Class 3
+    Class 1  0  2.000  0
+    Class 2  2.000  4.000  4.000
+    Class 3  0  4.000  8.000
